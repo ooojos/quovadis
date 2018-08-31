@@ -30,8 +30,12 @@ if(gametype == 1):
 	print("Game Over")
 	
 p1 = randomplayer("Dr Randododo", 1)
-p2 = smartplayer("Prof Brainzz", 2)
-	 #sequenceplayer("Mr Routin", 2)
+p1 = smartplayer("Prof Brainzz", 1)
+#p1 = sequenceplayer("Mr Routin", 1)
+
+#p2 = randomplayer("Dr Randododo", 2)
+#p2 = smartplayer("Prof Brainzz", 2)
+p2 = sequenceplayer("Mr Routin", 2)
 
 results=[0,0,0]
 if(gametype == 0):

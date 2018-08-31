@@ -37,11 +37,12 @@ class sequenceplayer:
 		self.pNumber = _pNumber
 	
 	def getMove(self, gameState):
-		if gameState[3] > 7: 
+		#bidList = [16, 16, 16, 2]
+		bidList = [17, 13, 8, 5, 3, 2, 1, 1]
+		if gameState[3] >= len(bidList): 
 			move = 0
 		else:
-			comp2BidsList = [17, 13, 8, 5, 3, 2, 1, 1]
-			move = comp2BidsList[gameState[3]]
+			move = bidList[gameState[3]]
 		#print(move)
 		return move
 		
