@@ -1,24 +1,113 @@
 <!DOCTYPE html>
 <html>
 <body>
-<h1>Hello World</h1>
+<h1>Quo Vadis</h1>
 
 
-<p id="demo">This is text.</p>
+<p id="money">You have 50.  Opponent has 50.</p>
+<p id="board">YOU|.|.|x|.|.|THEM</p>
 
-<button type="button" onclick="myFunction()">Try it</button>
-<button type="button" onclick="myOtherFunction()">Change it Back</button>
+<!-- 
+<button type="button" onclick="moveleft()">Left</button>
+<button type="button" onclick="moveright()">Right</button>
+-->
+
+<br />
+<div id="inputdiv">
+	<input type="number" id="bidIn">
+	<button type="button" onclick="bid()" id="bidButton">Bid!</button>
+</div>
+<br />
+<button type="button" onclick="reset()">Reset!</button>
+
     
-<script>
-function myFunction() {
-    document.getElementById("demo").innerHTML = "This is VERY different text.";
+<script type="text/javascript">
+var pos = 3;
+var humanMoney = 50;
+var compMoney = 50;
+var round = 0;
+var bidList = [17, 13, 8, 5, 3, 2, 1, 1];
+
+function moveleft() {
+	pos = pos - 1;
+    if(pos <= 0) {
+		document.getElementById("board").innerHTML = "You Win!!";
+		document.getElementById("inputdiv").style.display = "none"
+	}
+	if(pos == 1) document.getElementById("board").innerHTML = "YOU|x|.|.|.|.|THEM";
+	if(pos == 2) document.getElementById("board").innerHTML = "YOU|.|x|.|.|.|THEM";
+	if(pos == 3) document.getElementById("board").innerHTML = "YOU|.|.|x|.|.|THEM";
+	if(pos == 4) document.getElementById("board").innerHTML = "YOU|.|.|.|x|.|THEM";
+	if(pos == 5) document.getElementById("board").innerHTML = "YOU|.|.|.|.|x|THEM";
+	if(pos == 6){
+		document.getElementById("board").innerHTML = "You Lose";
+		document.getElementById("inputdiv").style.display = "none"
+	}
 }
-</script>    
-    
-<script>
-function myOtherFunction() {
-    document.getElementById("demo").innerHTML = "This is text.";
+
+function moveright() {
+	pos = pos + 1;
+    if(pos <= 0) {
+		document.getElementById("board").innerHTML = "You Win!!";
+		document.getElementById("inputdiv").style.display = "none"
+	}
+	if(pos == 1) document.getElementById("board").innerHTML = "YOU|x|.|.|.|.|THEM";
+	if(pos == 2) document.getElementById("board").innerHTML = "YOU|.|x|.|.|.|THEM";
+	if(pos == 3) document.getElementById("board").innerHTML = "YOU|.|.|x|.|.|THEM";
+	if(pos == 4) document.getElementById("board").innerHTML = "YOU|.|.|.|x|.|THEM";
+	if(pos == 5) document.getElementById("board").innerHTML = "YOU|.|.|.|.|x|THEM";
+	if(pos == 6) {
+		document.getElementById("board").innerHTML = "You Lose";
+		document.getElementById("inputdiv").style.display = "none"
+	}
+	
 }
+
+function reset() {
+	pos = 3;
+	humanMoney = 50;
+	compMoney = 50;
+	round=0;
+	document.getElementById("board").innerHTML = "YOU|.|.|x|.|.|THEM";
+	document.getElementById("money").innerHTML = "You have " + humanMoney + ".  Opponent has " + compMoney + ".";
+	document.getElementById("inputdiv").style.display = "block"
+}
+
+function bid() {
+
+	var compBid = getBid();
+	var humanBid = document.getElementById('bidIn').value
+	var bidIllegal = false;
+	
+	if(humanBid < 0) bidIllegal = true;
+	if(humanBid > humanMoney) bidIllegal = true;
+	if(bidIllegal)return;
+	
+	humanMoney -= humanBid;
+	compMoney -= compBid;
+	document.getElementById("money").innerHTML = "You have " + humanMoney + ".  Opponent has " + compMoney + ".";
+	if(humanBid > compBid){
+		moveleft();
+	}
+	else if(compBid > humanBid){
+		moveright();
+	}
+	else if(humanMoney == 0 && compMoney == 0 && pos != 0 & pos != 6){
+		document.getElementById("board").innerHTML = "Game Drawn";
+		document.getElementById("inputdiv").style.display = "none"
+		
+	}
+	round++;
+}
+
+function getBid(){
+	var bid = 0;
+	if(round < bidList.length) bid = bidList[round];
+	return bid;
+}
+	
+	
+	
 </script>
 
 </body>
