@@ -1,29 +1,56 @@
 <!DOCTYPE html>
 <html>
+<head>
+	<style>
+		body {
+			background-color: lightblue;
+		}
+		.game {
+			background-color: white;
+			border-style: double;
+			border-style: double;
+			padding: 10px;
+			width: 220px;
+			margin: auto;
+		}
+		
+		.board{
+			text-align: center;
+		}
+		
+		.title{
+			text-align: center;
+		}
+		
+	</style>
 <body>
-<h1>Quo Vadis</h1>
 
 
-<p id="money">You have 50.  Opponent has 50.</p>
-<p id="board">YOU|.|.|x|.|.|THEM</p>
-<p id="compReadout">???</p>
+<div class=game>
+	<h1 class="title">Quo Vadis</h1>
+	<p id="money">You have 50.  Opponent has 50.</p>
+	<p id="board" class="board">YOU|.|.|x|.|.|THEM</p>
+	<p id="compReadout">???</p>
 
-<!--
-<button type="button" onclick="moveleft()">Left</button>
-<button type="button" onclick="moveright()">Right</button>
-<button type="button" onclick="clearField()">Clear</button>
--->
+	<!--
+	<button type="button" onclick="moveleft()">Left</button>
+	<button type="button" onclick="moveright()">Right</button>
+	<button type="button" onclick="clearField()">Clear</button>
+	-->
 
 
-<div id="inputdiv">
-	<input type="number" id="bidIn">
-	<button type="button" onclick="bid()" id="bidButton">Bid!</button>
+	<div id="inputdiv">
+		<input type="number" id="bidIn">
+		<button type="button" onclick="bid()" id="bidButton">Bid!</button>
+	</div>
+	<br />
+
+	<button type="button" onclick="reset()" >Reset!</button>
+
+
+	<br /><br />
+	<p id="debug"></p>
 </div>
-<br />
-<button type="button" onclick="reset()">Reset!</button>
-
-<br /><br />
-<p id="debug"></p>
 
     
 <script type="text/javascript">
