@@ -84,6 +84,7 @@ function bid() {
 	//document.getElementById("debug").innerHTML = "test";
 	
 	var humanBid = Math.floor(document.getElementById('bidIn').value);
+	//document.getElementById("debug").innerHTML = humanBid;
 	var bidIllegal = false;
 	
 	if(humanBid < 0) bidIllegal = true;
@@ -110,74 +111,65 @@ function bid() {
 }
 
 function getBid(){
-	
-	if(compMoney == 0){
-		document.getElementById("compReadout").innerHTML = "Computer bid: 0";
-		return 0;
+	var proposedBid = 0;                            /// Proposed bid - set in this function and then returned
+	if(compMoney == 0){		                        /// At 0 - can't bid
+		proposedBid = 0;
 	}
-	if (humanMoney == 0) {
-		document.getElementById("compReadout").innerHTML = "Computer bid: 1";
-		return 1;
+	else if (compMoney > humanMoney*(6-pos)){       ///Can cover anything all the way to the win.
+		proposedBid = humanMoney + 1;
 	}
-	if (compMoney > humanMoney*(6-pos)){
-		var winningBid = humanMoney + 1;
-		document.getElementById("compReadout").innerHTML = "Computer bid: "+winningBid;
-		return winningBid;
-	}
-	
-	if(pos == 1) { //DANGER DANGER
+	else if(pos == 1) {                             //DANGER DANGER
 		if(compMoney >= humanMoney) {
-			document.getElementById("compReadout").innerHTML = "Computer bid: "+humanMoney;
-			return humanMoney;
+			proposedBid = humanMoney;
 		}
 	}
-	if(pos == 5) { //Close...
+	else if(pos == 5) {  							//Close...
 		if(Math.random() <0.33){
-			document.getElementById("compReadout").innerHTML = "Computer bid: "+compMoney;
-			return compMoney;
+			proposedBid = compMoney;					//Bid it all
 		}
-		else if(Math.random() <0.66){
-			var propBid = (Math.floor((Math.random() * 4)));
-			document.getElementById("compReadout").innerHTML = "Computer bid: "+propBid;
-			return propBid;
+		else if(Math.random() <0.8){					//Duck
+			proposedBid = (Math.floor((Math.random() * 3)));
 		}
-		else {
-			var propBid = (Math.floor(compMoney / 2));
+		else {											//half money
+			proposedBid = (Math.floor(compMoney / 2));
 		}
 	}
-
-	if(round < 3){
+	else if(round < 3){
 		if(Math.random() < 0.2){
-			var propBid = (Math.floor((Math.random() * 3)));
-			document.getElementById("compReadout").innerHTML = "Computer bid: "+propBid;
-			return propBid;
+			do {
+				proposedBid = (Math.floor((Math.random() * 3)));
+			}
+			while (proposedBid > compMoney);
 		}
 		else {
-			var propBid = (5 + Math.floor((Math.random() * compMoney/3)));
-			document.getElementById("compReadout").innerHTML = "Computer bid: "+propBid;
-			return propBid;
+			do {
+				proposedBid = (Math.floor(compMoney/10) + Math.floor((Math.random() * compMoney/3)));
+			}
+			while (proposedBid > compMoney);
 		}
 	}
-	if(Math.random() < 0.3){
-		var propBid = (Math.floor((Math.random() * 3)));
-		if(propBid > compMoney) propBid=0;
-		document.getElementById("compReadout").innerHTML = "Computer bid: "+propBid;
-		return propBid;
+	else if(Math.random() < 0.4){
+		proposedBid = (Math.floor((Math.random() * 2)));
+		if(proposedBid > compMoney) proposedBid=0;
 	}
-	if(Math.random() < 0.4){
-		do {
-			propBid = (Math.floor((Math.random() * 10)));
-		}
-		while(propBid > compMoney)
-		document.getElementById("compReadout").innerHTML = "Computer bid: "+propBid;
-		return propBid;
-	}	
 	else {
-		var propBid = Math.floor((Math.random() * compMoney/2) + 1);
-		document.getElementById("compReadout").innerHTML = "Computer bid: "+propBid;
-		return propBid;
+		do {
+			var proposedBid = Math.floor((Math.random() * compMoney/2));
+		}
+		while (proposedBid > compMoney);
 	}
-	return 0;
+	
+	
+	////should have decided on proposed bid by here
+	
+	if(proposedBid > humanMoney + 1)proposedBid = humanMoney + 1;
+	if(proposedBid > compMoney){
+		proposedBid = 0;
+		document.getElementById("debug").innerHTML = "I tried to bid an illegal amount: "+proposedBid;
+	}
+	
+	document.getElementById("compReadout").innerHTML = "Computer bid: "+proposedBid;
+	return proposedBid;
 }
 	
 function clearField() {
